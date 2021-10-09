@@ -1,3 +1,7 @@
+* {
+  font-family: 'IBM Plex Mono', monospace;
+}
+
 .App {
     text-align: center;
   }
@@ -16,6 +20,7 @@
   
   .add-note-form__item {
     margin: 5px 0;
+    padding: 1vh;
     font-size: calc(10px + 1vmin);
   }
   
@@ -35,6 +40,7 @@
     padding: 1vh;
     color: white;
     background-color: lightcoral;
+    font-size: calc(15px + 1vmin);
   }
   
   .App-header {
@@ -50,6 +56,7 @@
     justify-content: center;
     font-size: calc(10px + 2vmin);
     color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
   }
   
   .App-link {
@@ -73,6 +80,7 @@
     margin: 2vh;
     height: 200px;
     width: 190px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   }
   
   .note__item {
@@ -117,4 +125,12 @@
     overflow-x: hidden;
     text-decoration: underline;
     line-height: 30px;
+  }
+
+  .App-footer {
+    position: fixed;
+    background-color: white;
+    width: 100%;
+    bottom: 5px;
+    left: 10px;
   }

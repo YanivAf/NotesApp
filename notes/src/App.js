@@ -58,6 +58,9 @@ class App extends React.Component {
           this.state.notes.map((note, index) => <Note key={`note_${index}`} index={index} onDelete={this.handleDelete} title={note.title} date={note.date} text={note.text} />) :
           <p>No notes to show</p>}
         </main>
+        <footer className="App-footer">
+          <p>© all rights reserved to <a href="https://www.linkedin.com/in/yaniv-aflalo-8aa92386/">Yaniv Aflalo</a>, full stack developer</p>
+        </footer>
       </div>
     );
   }
