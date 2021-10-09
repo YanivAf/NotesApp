@@ -1,0 +1,120 @@
+.App {
+    text-align: center;
+  }
+  
+  .add-note-form {
+    width: 60vw;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  ::placeholder {
+    color:lightcoral;
+  }
+  
+  .add-note-form__item {
+    margin: 5px 0;
+    font-size: calc(10px + 1vmin);
+  }
+  
+  .add-note-form__item--title {
+    background-color: firebrick;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .add-note-form__item--text {
+    background-color: beige;
+    resize: none;
+  }
+  
+  .add-note-form__item--add {
+    font-weight: bold;
+    padding: 1vh;
+    color: white;
+    background-color: lightcoral;
+  }
+  
+  .App-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: gray;
+    min-height: 21vh;
+    padding: 2vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+  }
+  
+  .App-link {
+    color: #61dafb;
+  }
+  
+  .App-main {
+    padding: 1vh;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .note {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 2vh;
+    height: 200px;
+    width: 190px;
+  }
+  
+  .note__item {
+    width: 100%;
+    padding: 0 5px;
+    margin: 0;
+    word-break: break-all;
+    font-size: calc(10px + 1vmin);
+  }
+  
+  .note__item--close {
+    position: absolute;
+    text-align: unset;
+    padding: 0;
+    top: 2px;
+    right: 0px;
+    width: fit-content;
+    text-align: right;
+    cursor: pointer;
+    color: lightcoral;
+  }
+  
+  .note__item--title {
+    width: 180px;
+    padding: 0 10px 10px 10px;
+    border-radius: 5px 5px 0 0;
+    background-color: firebrick;
+    color: white;
+  }
+  
+  .note__item--date {
+    font-size: calc(5px + 1vmin);
+    padding-bottom: 10px;
+    background-color: firebrick;
+    color: lightgrey;
+  }
+  
+  .note__item--text {
+    border-radius: 0 0 5px 5px;
+    background-color: beige;
+    height: 100%;
+    overflow-x: hidden;
+    text-decoration: underline;
+    line-height: 30px;
+  }
