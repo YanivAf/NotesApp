@@ -31,18 +31,18 @@ class App extends React.Component {
     })
     .then((willDelete) => {
       if (willDelete) {
+        this.setState(oldState => {
+          const updatedNotes = [...this.state.notes];
+          updatedNotes.splice(index, 1);
+          return {...oldState, notes: updatedNotes}
+        });
         swal("Note deleted", {
           icon: "success",
         });
       } else {
         swal("Delete cancelled");
+        return;
       }
-    });
-
-    this.setState(oldState => {
-      const updatedNotes = [...this.state.notes];
-      updatedNotes.splice(index, 1);
-      return {...oldState, notes: updatedNotes}
     });
   }
 
@@ -50,13 +50,13 @@ class App extends React.Component {
     return (
       <div className="App">
         <header className="App-header">
+          <h1>Notes App with React.js</h1>
           <AddNoteForm onAdd={this.handleAdd} />
         </header>
         <main className="App-main">
           {this.state.notes.length ?
           this.state.notes.map((note, index) => <Note key={`note_${index}`} index={index} onDelete={this.handleDelete} title={note.title} date={note.date} text={note.text} />) :
           <p>No notes to show</p>}
-          {console.log(this.state)}
         </main>
       </div>
     );
