@@ -19,6 +19,10 @@ class AddNoteForm extends React.Component {
 
     handleNoteText(e) {
         this.setState(oldState => ({...oldState, text: e.target.value}));
+        this.adjustTextareaHeight(e);
+    }
+
+    adjustTextareaHeight(e) {
         e.target.style.height = "auto";
         e.target.style.height = (e.target.scrollHeight) + "px";
     }

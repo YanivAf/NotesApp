@@ -13,6 +13,7 @@ class App extends React.Component {
     }
     this.handleAdd = this.handleAdd.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+    this.confirmDelete = this.confirmDelete.bind(this);
   }
 
   handleAdd(newNote) {
@@ -22,7 +23,13 @@ class App extends React.Component {
     });
   }
 
-  handleDelete(index) {
+  handleDelete(updatedNotes) {
+    this.setState(oldState => {
+      return {...oldState, notes: updatedNotes}
+    });
+  }
+
+  confirmDelete(index) {
     swal({
       title: "Are you sure?",
       icon: "warning",
@@ -31,14 +38,9 @@ class App extends React.Component {
     })
     .then((willDelete) => {
       if (willDelete) {
-        this.setState(oldState => {
-          const updatedNotes = [...this.state.notes];
-          updatedNotes.splice(index, 1);
-          return {...oldState, notes: updatedNotes}
-        });
-        swal("Note deleted", {
-          icon: "success",
-        });
+        const updatedNotes = [...this.state.notes];
+        updatedNotes.splice(index, 1);  
+        this.handleDelete(updatedNotes);
       } else {
         swal("Delete cancelled");
         return;
@@ -55,11 +57,11 @@ class App extends React.Component {
         </header>
         <main className="App-main">
           {this.state.notes.length ?
-          this.state.notes.map((note, index) => <Note key={`note_${index}`} index={index} onDelete={this.handleDelete} title={note.title} date={note.date} text={note.text} />) :
+          this.state.notes.map((note, index) => <Note key={`note_${index}`} index={index} onDelete={this.confirmDelete} title={note.title} date={note.date} text={note.text} />) :
           <p className="no-notes">No notes to show</p>}
         </main>
         <footer className="App-footer">
-          <p>© all rights reserved to <a className="App-link" href="https://www.linkedin.com/in/yaniv-aflalo-8aa92386/" target="_blank">Yaniv Aflalo</a>, full stack developer</p>
+          <p>© all rights reserved to <a className="App-link" href="https://www.linkedin.com/in/yaniv-aflalo-8aa92386/" target="_blank" rel="noreferrer">Yaniv Aflalo</a>, full stack developer</p>
         </footer>
       </div>
     );

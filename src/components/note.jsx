@@ -17,6 +17,8 @@ function Note( { title, date, text, onDelete, index }) {
         case '3':
           nth = 'rd';
           break;
+        default:
+          nth = 'th';
       }
     }
     
