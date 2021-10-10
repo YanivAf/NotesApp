@@ -1,4 +1,4 @@
-function formatDate(date) {
+function formatDate(date, withYear) {
     const options = { dateStyle: "medium", timeStyle: "short" };
     let formattedDate = new Intl.DateTimeFormat('en-US', options).format(date);
     let nth = 'th';
@@ -22,7 +22,7 @@ function formatDate(date) {
       }
     }
   
-    formattedDate = formattedDate.replace(/[,](.){5}[,]/gm, nth);
+    formattedDate = (withYear) ? formattedDate.replace(',', nth).replace(/[,]/gm, '\n') : formattedDate.replace(/[,](.){5}[,]/gm, nth);
     return formattedDate;
   }
 

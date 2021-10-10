@@ -1,7 +1,7 @@
 import formatDate from '../utilities/fromatDate';
 
 function Note( { title, date, text, onDelete, index }) {
-    let formattedDate = formatDate(date);
+    let formattedDate = formatDate(date, true); // withYear = false
 
     return (
         <div className='note tilt-in-fwd-br'>

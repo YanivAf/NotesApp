@@ -20,13 +20,13 @@ class AddNoteForm extends React.Component {
 
     handleNoteText(e) {
         this.setState(oldState => ({...oldState, text: e.target.value}));
-        this.adjustTextareaHeight(e);
     }
 
     handleAddNote(e) {
         e.preventDefault();      
         const newNote = { title: this.state.title, text: this.state.text, date: new Date() }
         this.props.onAdd(newNote);
+        this.adjustTextareaHeight(e);
         this.setState({title: '', text: ''});
     }
 
