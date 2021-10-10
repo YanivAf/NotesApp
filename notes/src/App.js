@@ -59,7 +59,7 @@ class App extends React.Component {
           <p>No notes to show</p>}
         </main>
         <footer className="App-footer">
-          <p>© all rights reserved to <a href="https://www.linkedin.com/in/yaniv-aflalo-8aa92386/">Yaniv Aflalo</a>, full stack developer</p>
+          <p>© all rights reserved to <a className="App-link" href="https://www.linkedin.com/in/yaniv-aflalo-8aa92386/" target="_blank">Yaniv Aflalo</a>, full stack developer</p>
         </footer>
       </div>
     );
