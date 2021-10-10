@@ -11,6 +11,7 @@ class AddNoteForm extends React.Component {
         this.handleNoteTitle = this.handleNoteTitle.bind(this);
         this.handleNoteText = this.handleNoteText.bind(this);
         this.handleAddNote = this.handleAddNote.bind(this);
+        this.adjustTextareaHeight = this.adjustTextareaHeight.bind(this);
     }
 
     handleNoteTitle(e) {
@@ -22,16 +23,16 @@ class AddNoteForm extends React.Component {
         this.adjustTextareaHeight(e);
     }
 
-    adjustTextareaHeight(e) {
-        e.target.style.height = "auto";
-        e.target.style.height = (e.target.scrollHeight) + "px";
-    }
-
     handleAddNote(e) {
         e.preventDefault();      
         const newNote = { title: this.state.title, text: this.state.text, date: new Date() }
         this.props.onAdd(newNote);
         this.setState({title: '', text: ''});
+    }
+
+    adjustTextareaHeight(e) {
+        e.target.style.height = "auto";
+        e.target.style.height = (e.target.scrollHeight) + "px";
     }
 
     render() {
