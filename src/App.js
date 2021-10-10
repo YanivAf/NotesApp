@@ -17,16 +17,11 @@ class App extends React.Component {
   }
 
   handleAdd(newNote) {
-    this.setState(oldState => {
-      const updatedNotes = [...oldState.notes, newNote]
-      return {...oldState, notes: updatedNotes};
-    });
+    this.setState(oldState => ({...oldState, notes: [...oldState.notes, newNote]}));
   }
 
   handleDelete(updatedNotes) {
-    this.setState(oldState => {
-      return {...oldState, notes: updatedNotes}
-    });
+    this.setState(oldState => ({...oldState, notes: updatedNotes}));
   }
 
   confirmDelete(index) {
