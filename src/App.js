@@ -52,7 +52,7 @@ class App extends React.Component {
         </header>
         <main className="App-main">
           {this.state.notes.length ?
-          this.state.notes.map((note, index) => <Note key={`note_${index}`} index={index} onDelete={this.confirmDelete} title={note.title} date={note.date} text={note.text} />) :
+          this.state.notes.map((note, index) => <Note key={note.id} index={index} onDelete={this.confirmDelete} title={note.title} date={note.date} text={note.text} />) :
           <p className="no-notes">No notes to show</p>}
         </main>
         <footer className="App-footer">

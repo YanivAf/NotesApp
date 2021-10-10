@@ -1,11 +1,13 @@
 import React from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 class AddNoteForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             title: '',
-            text: ''
+            text: '',
+            id: ''
         }
 
         this.handleNoteTitle = this.handleNoteTitle.bind(this);
@@ -24,7 +26,7 @@ class AddNoteForm extends React.Component {
 
     handleAddNote(e) {
         e.preventDefault();      
-        const newNote = { title: this.state.title, text: this.state.text, date: new Date() }
+        const newNote = { title: this.state.title, text: this.state.text, date: new Date(), id: uuidv4() }
         this.props.onAdd(newNote);
         this.adjustTextareaHeight(e);
         this.setState({title: '', text: ''});
