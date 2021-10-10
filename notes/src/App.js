@@ -50,7 +50,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <header className="App-header">
-          <h1 className="App-h1">Notes App with React.js</h1>
+          <h1 className="App-h1">Notes Cork Board with React.js</h1>
           <AddNoteForm onAdd={this.handleAdd} />
         </header>
         <main className="App-main">
