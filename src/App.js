@@ -5,6 +5,7 @@ import Note from './components/note';
 
 import Modal from 'react-modal';
 import swal from 'sweetalert';
+import localforage from 'localforage';
 
 Modal.setAppElement('#root');
 const customStyles = {
@@ -19,24 +20,34 @@ const customStyles = {
   },
 };
 
-function App(props) {
-  const [notes, setNotes] = useState([]);
+async function App(props) {
+  let localforageNotes = await localforage.getItem('notes') ?? [];
+  console.log(localforageNotes);
+  const [notes, setNotes] = useState(localforageNotes);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalNoteIndex, setModalNoteIndex] = useState(null);
 
+  useEffect(async () => {
+    localforageNotes = await localforage.getItem('notes') ?? [];
+    setNotes(localforageNotes);
+  },[]);
+
   const handleAdd = (newNote) => {
     setNotes([...notes, newNote]);
+    localforage.setItem('notes', notes);
   }
 
   const handleUpdate = (updatedNote) => {
     const updatedNotes = [...notes];
     updatedNotes.splice(modalNoteIndex, 1, updatedNote);
     setNotes(updatedNotes);
+    localforage.setItem('notes', notes);
     closeModal();
   }
 
   const handleDelete = (updatedNotes) => {
     setNotes(updatedNotes);
+    localforage.setItem('notes', notes);
   }
 
   const confirmDelete = (deleteIndex) => {
