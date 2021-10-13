@@ -1,30 +1,45 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
-import AddNoteForm from './components/addNoteForm';
+import NoteForm from './components/NoteForm';
 import Note from './components/note';
 
+import Modal from 'react-modal';
 import swal from 'sweetalert';
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-        notes: [],
-    }
-    this.handleAdd = this.handleAdd.bind(this);
-    this.handleDelete = this.handleDelete.bind(this);
-    this.confirmDelete = this.confirmDelete.bind(this);
+Modal.setAppElement('#root');
+const customStyles = {
+  content: {
+    inset: 'unset',
+    border: 'unset',
+    background: 'unset',
+    overflow: 'unset',
+    borderRadius: 'unset',
+    outline: 'unset',
+    padding: 'unset',
+  },
+};
+
+function App(props) {
+  const [notes, setNotes] = useState([]);
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const [modalNoteIndex, setModalNoteIndex] = useState(null);
+
+  const handleAdd = (newNote) => {
+    setNotes([...notes, newNote]);
   }
 
-  handleAdd(newNote) {
-    this.setState(oldState => ({...oldState, notes: [...oldState.notes, newNote]}));
+  const handleUpdate = (updatedNote) => {
+    const updatedNotes = [...notes];
+    updatedNotes.splice(modalNoteIndex, 1, updatedNote);
+    setNotes(updatedNotes);
+    closeModal();
   }
 
-  handleDelete(updatedNotes) {
-    this.setState(oldState => ({...oldState, notes: updatedNotes}));
+  const handleDelete = (updatedNotes) => {
+    setNotes(updatedNotes);
   }
 
-  confirmDelete(index) {
+  const confirmDelete = (deleteIndex) => {
     swal({
       title: "Are you sure?",
       icon: "warning",
@@ -33,9 +48,9 @@ class App extends React.Component {
     })
     .then((willDelete) => {
       if (willDelete) {
-        const updatedNotes = [...this.state.notes];
-        updatedNotes.splice(index, 1);  
-        this.handleDelete(updatedNotes);
+        const updatedNotes = [...notes];
+        updatedNotes.splice(deleteIndex, 1);
+        handleDelete(updatedNotes);
       } else {
         swal("Delete cancelled");
         return;
@@ -43,24 +58,61 @@ class App extends React.Component {
     });
   }
 
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <h1 className="App-h1">Notes Cork Board with React.js</h1>
-          <AddNoteForm onAdd={this.handleAdd} />
-        </header>
-        <main className="App-main">
-          {this.state.notes.length ?
-          this.state.notes.map((note, index) => <Note key={note.id} index={index} onDelete={this.confirmDelete} title={note.title} date={note.date} text={note.text} id={note.id} />) :
-          <p className="no-notes">No notes to show</p>}
-        </main>
-        <footer className="App-footer">
-          <p>© all rights reserved to <a className="App-link" href="https://www.linkedin.com/in/yaniv-aflalo-8aa92386/" target="_blank" rel="noreferrer">Yaniv Aflalo</a>, full stack developer</p>
-        </footer>
-      </div>
-    );
+  const openModal = (e, updateIndex) => {
+    if (e.target.classList.contains('note__item--close')) return;
+    setModalNoteIndex(updateIndex);
+    setIsOpen(true);
   }
+
+  const closeModal = () => {
+    setIsOpen(false);
+  }
+
+  return (
+    <div className="App">
+      <header className="App-header">
+        <h1 className="App-h1">Notes Cork Board with React.js</h1>
+        <NoteForm
+          onAdd={handleAdd}
+          title={''}
+          text={''} />
+      </header>
+      <main className="App-main">
+        {notes.length ?
+        notes.map((note, index) =>
+        <Note
+          key={note.id}
+          index={index}
+          onDelete={confirmDelete}
+          onOpenModal={openModal}
+          title={note.title}
+          createdAt={note.createdAt}
+          updatedAt={note.updatedAt}
+          text={note.text}
+          id={note.id} />) :
+        <p className="no-notes">No notes to show</p>}
+        <Modal
+          isOpen={modalIsOpen}
+          onRequestClose={closeModal}
+          style={customStyles}
+          contentLabel="Note Modal"
+        >
+          <span className="modal__item modal__item--close" onClick={closeModal}>✖</span>
+          <NoteForm
+            onUpdate={handleUpdate}
+            id={modalIsOpen ? notes[modalNoteIndex].id : null}
+            title={modalIsOpen ? notes[modalNoteIndex].title : null}
+            text={modalIsOpen ? notes[modalNoteIndex].text : null}
+            createdAt={modalIsOpen ? notes[modalNoteIndex].createdAt : null}
+            updatedAt={modalIsOpen ? notes[modalNoteIndex].updatedAt : null} />
+        </Modal>
+
+      </main>
+      <footer className="App-footer">
+        <p>© all rights reserved to <a className="App-link" href="https://www.linkedin.com/in/yaniv-aflalo-8aa92386/" target="_blank" rel="noreferrer">Yaniv Aflalo</a>, full stack developer</p>
+      </footer>
+    </div>
+  );
 }
 
 export default App;

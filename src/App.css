@@ -38,7 +38,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
 }
 
-.add-note-form {
+.note-form {
   width: 60vw;
   min-width: 300px;
   max-width: 1000px;
@@ -51,39 +51,50 @@
   color:lightcoral;
 }
 
-.add-note-form__item {
-  border-radius: 5px;
+.note-form__item {
   border: 0;
-  margin: 5px 0;
+  margin: 0;
   padding: 1vh;
+  overflow-x: hidden;
   font-size: calc(10px + 1vmin);
 }
 
-.add-note-form__item--title {
+.note-form__item--title {
+  border-radius: 5px 5px 0 0;
   background-color: firebrick;
   color: white;
   font-weight: bold;
 }
 
-.add-note-form__item--text {
+.note-form__item--text {
+  padding-top: 8px;
+  border-radius: 0 0 5px 5px;
   background-color: beige;
+  background-image: linear-gradient(lightcoral 1px, transparent 1px);
+  background-size: 100% 30px;
+  background-repeat: repeat-y;
+  background-attachment: local;
+  line-height: 30px;
+  white-space: pre-wrap;
   resize: none;
 }
 
-.add-note-form__item--add {
+.note-form__item--submit, .modal__item--update {
   font-weight: bold;
   padding: 1vh;
+  border-radius: 5px;
   color: white;
   background-color: lightcoral;
   font-size: calc(15px + 1vmin);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
+  cursor: pointer;
 }
 
-.add-note-form__item--add:hover {
+.add-note-form__item--add:hover, .modal__item--update:hover {
   background-color: darkred;
 }
 
-.add-note-form__item--add:active {
+.add-note-form__item--add:active, .modal__item--update:active {
   background-color: firebrick;
 }
 
@@ -102,7 +113,17 @@
   background-color: white;
 }
 
-.note {
+.ReactModal__Overlay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  z-index: 100;
+}
+
+.ReactModal__Content {
   display: flex;
   position: relative;
   flex-direction: column;
@@ -113,15 +134,33 @@
   width: 190px;
 }
 
+.note, .ReactModal__Content {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 1vh 2vh;
+  height: 250px;
+  width: 190px;
+}
+
+.ReactModal__Content {
+  width: 60vw;
+  min-width: 300px;
+  max-width: 1000px;
+  display: unset;
+}
+
 .note__item {
   width: 100%;
   padding: 0 5px;
   margin: 0;
-  word-break: break-all;
+  border: 0;
   font-size: calc(10px + 1vmin);
 }
 
-.note__item--close {
+.note__item--close, .modal__item--close {
   position: absolute;
   text-align: unset;
   padding: 0;
@@ -133,18 +172,24 @@
   color: lightcoral;
 }
 
-.note__item--title {
-  width: 180px;
-  padding: 0 10px 10px 10px;
-  border-radius: 5px 5px 0 0;
+.note__item--top {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   background-color: firebrick;
+  border-radius: 5px 5px 0 0;
+}
+
+.note__item--title {
+  padding-bottom: 5px;
   color: white;
+  font-weight: bold;
 }
 
 .note__item--date {
+  padding-bottom: 5px;
   font-size: calc(5px + 1vmin);
-  padding-bottom: 10px;
-  background-color: firebrick;
   color: lightgrey;
 }
 
@@ -160,6 +205,11 @@
   overflow-x: hidden;
   line-height: 30px;
   white-space: pre-wrap;
+}
+
+.modal__item--title {
+  width: 100%;
+  padding: 5px 0;
 }
 
 .note::before,
