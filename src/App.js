@@ -20,34 +20,41 @@ const customStyles = {
   },
 };
 
-async function App(props) {
-  let localforageNotes = await localforage.getItem('notes') ?? [];
-  console.log(localforageNotes);
+function App(props) {
+  let localforageNotes = [];
+
   const [notes, setNotes] = useState(localforageNotes);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalNoteIndex, setModalNoteIndex] = useState(null);
 
-  useEffect(async () => {
-    localforageNotes = await localforage.getItem('notes') ?? [];
-    setNotes(localforageNotes);
+  useEffect(() => {
+    async function getLocalforageNotes() {
+      const tempNotes = await localforage.getItem('notes');
+      console.log(tempNotes);
+      localforageNotes = (tempNotes) ? tempNotes : [];
+      setNotes(localforageNotes);
+    }
+  
+    getLocalforageNotes();
   },[]);
+
 
   const handleAdd = (newNote) => {
     setNotes([...notes, newNote]);
-    localforage.setItem('notes', notes);
+    localforage.setItem('notes', [...notes, newNote]);
   }
 
   const handleUpdate = (updatedNote) => {
     const updatedNotes = [...notes];
     updatedNotes.splice(modalNoteIndex, 1, updatedNote);
     setNotes(updatedNotes);
-    localforage.setItem('notes', notes);
+    localforage.setItem('notes', updatedNotes);
     closeModal();
   }
 
   const handleDelete = (updatedNotes) => {
     setNotes(updatedNotes);
-    localforage.setItem('notes', notes);
+    localforage.setItem('notes', updatedNotes);
   }
 
   const confirmDelete = (deleteIndex) => {
