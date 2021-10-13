@@ -30,7 +30,6 @@ function App(props) {
   useEffect(() => {
     async function getLocalforageNotes() {
       const tempNotes = await localforage.getItem('notes');
-      console.log(tempNotes);
       localforageNotes = (tempNotes) ? tempNotes : [];
       setNotes(localforageNotes);
     }
