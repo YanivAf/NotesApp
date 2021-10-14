@@ -3,6 +3,13 @@
 	        animation: tilt-in-fwd-br 0.6s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 }
 
+h2 {
+  position: sticky;
+  bottom: 8vh;
+  z-index: 10;
+  padding: 1vh;
+}
+
 .App {
     background-image: url('https://cdn.pixabay.com/photo/2012/12/24/08/39/backdrop-72250__480.jpg');
     text-align: center;
@@ -14,8 +21,9 @@
 }
 
 .App-h1 {
+  height: 10vh;
   margin: 0;
-  font-size: calc(10px + 5vmin);
+  font-size: calc(10px + 4vmin);
 }
 
 .App-link {
@@ -24,11 +32,11 @@
 
 .App-header {
   position: sticky;
-  top: 0;
+  top: -10vh;
   z-index: 10;
   background-image: url('http://bgfons.com/uploads/wood/wood%20_texture3177.jpg');
   min-height: 20vh;
-  padding: 2vh;
+  padding: 1vh 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -99,17 +107,12 @@
 }
 
 .App-main {
+  position: relative;
   background-image: url('https://cdn.pixabay.com/photo/2012/12/24/08/39/backdrop-72250__480.jpg');
-  padding: 1vh;
-  padding-bottom: 10vh;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
+  padding: 4.8vh 0;
 }
 
-.active, .archived {
+.notes {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -117,8 +120,6 @@
 }
 
 .text-bg {
-  position: relative;
-  width: 50vw;
   background-color: beige;
 }
 
@@ -265,9 +266,11 @@
   position: fixed;
   background-color: white;
   width: 100%;
+  height: 8vh;
   bottom: 0;
   left: 0;
   font-size: calc(10px + 1vmin);
+  z-index: 20;
 }
 
 @-webkit-keyframes tilt-in-fwd-br {

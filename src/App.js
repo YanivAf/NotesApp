@@ -6,6 +6,7 @@ import Note from './components/note';
 import Modal from 'react-modal';
 import swal from 'sweetalert';
 import localforage from 'localforage';
+import sortByDate from './utilities/sortByDate';
 
 Modal.setAppElement('#root');
 const customStyles = {
@@ -84,6 +85,10 @@ function App(props) {
           updatedArchived = [...notes.archived, noteToArchive];
           updatedActive.splice(toggleIndex, 1);
         }
+
+        updatedActive = sortByDate(updatedActive);
+        updatedArchived = sortByDate(updatedArchived);
+        
         handleToggle(updatedActive, updatedArchived);
       } else {
         swal(`${(isArchived) ? `Restore` : `Archive`} cancelled`);
@@ -112,39 +117,43 @@ function App(props) {
           text={''} />
       </header>
       <main className="App-main">
-        <h2 className="text-bg">Active Notes</h2>
-        <section className="active">
-          {notes.active.length ?
-          notes.active.map((note, index) =>
-            <Note
-              key={note.id}
-              index={index}
-              onToggleArchive={confirmToggle}
-              isArchived={false}
-              onOpenModal={openModal}
-              title={note.title}
-              createdAt={note.createdAt}
-              updatedAt={note.updatedAt}
-              text={note.text}
-              id={note.id} />) :
-          <p className="text-bg">No active notes</p>}
-        </section>
-        <h2 className="text-bg">Archived Notes</h2>
-        <section className="archived">
-          {notes.archived.length ?
-            notes.archived.map((note, index) =>
+        <section>
+          <div className="notes">
+            {notes.active.length ?
+            notes.active.map((note, index) =>
               <Note
                 key={note.id}
                 index={index}
                 onToggleArchive={confirmToggle}
-                isArchived={true}
+                isArchived={false}
                 onOpenModal={openModal}
                 title={note.title}
                 createdAt={note.createdAt}
                 updatedAt={note.updatedAt}
                 text={note.text}
                 id={note.id} />) :
-            <p className="text-bg">No archived notes</p>}
+            <p className="text-bg">No active notes</p>}
+          </div>
+          <h2 className="text-bg">Active Notes</h2>
+        </section>
+        <section>
+          <div className="notes">
+            {notes.archived.length ?
+              notes.archived.map((note, index) =>
+                <Note
+                  key={note.id}
+                  index={index}
+                  onToggleArchive={confirmToggle}
+                  isArchived={true}
+                  onOpenModal={openModal}
+                  title={note.title}
+                  createdAt={note.createdAt}
+                  updatedAt={note.updatedAt}
+                  text={note.text}
+                  id={note.id} />) :
+              <p className="text-bg">No archived notes</p>}
+            </div>
+            <h2 className="text-bg">Archived Notes</h2>
         </section>
         <Modal
           isOpen={modalIsOpen}

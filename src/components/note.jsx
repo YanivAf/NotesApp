@@ -7,7 +7,7 @@ function Note( { title, createdAt, updatedAt, text, onToggleArchive, isArchived,
     const archiveTopClass = (isArchived) ? ' note__item--archived' : ''
     return (
         <div className='note tilt-in-fwd-br' onClick={(e) => onOpenModal(e, index, isArchived)}>
-            {<span className={`note__item note__item--close${archiveTopClass}`} onClick={() => onToggleArchive(index, isArchived)}>{isArchived ? '⭯' : '✖'}</span>}
+            {<span className={`note__item note__item--close${archiveTopClass}`} onClick={() => onToggleArchive(index, isArchived)}>{isArchived ? '🡹' : '✖'}</span>}
             {title ?
             <div className={`note__item note__item--top${archiveTopClass}`}>
                 <h4 className='note__item note__item--title'>{title}</h4>
