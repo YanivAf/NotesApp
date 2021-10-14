@@ -18,10 +18,14 @@ const customStyles = {
     outline: 'unset',
     padding: 'unset',
   },
+  overlay: {
+    backgroundColor: 'rgba(0, 0, 0, 0.75)'
+  }
 };
 
 function App(props) {
-  let localforageNotes = [];
+  // localforage.clear()
+  let localforageNotes = { active: [], archived: [] };
 
   const [notes, setNotes] = useState(localforageNotes);
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -29,54 +33,67 @@ function App(props) {
 
   useEffect(() => {
     async function getLocalforageNotes() {
-      const tempNotes = await localforage.getItem('notes');
-      localforageNotes = (tempNotes) ? tempNotes : [];
+      const getNotes = await localforage.getItem('notes');
+      localforageNotes = (getNotes) ? getNotes : { active: [], archived: [] };
       setNotes(localforageNotes);
     }
-  
+
     getLocalforageNotes();
   },[]);
 
 
-  const handleAdd = (newNote) => {
-    setNotes([...notes, newNote]);
-    localforage.setItem('notes', [...notes, newNote]);
+  const handleAdd = async (newNote) => {
+    const updatedNotes = { ...notes, ...{ active: [...notes.active, newNote] } };
+    setNotes(updatedNotes);
+    await localforage.setItem('notes', updatedNotes);
   }
 
-  const handleUpdate = (updatedNote) => {
-    const updatedNotes = [...notes];
-    updatedNotes.splice(modalNoteIndex, 1, updatedNote);
+  const handleUpdate = async (updatedNote) => {
+    const updatedActive = [...notes.active];
+    updatedActive.splice(modalNoteIndex, 1, updatedNote);
+    const updatedNotes = { ...notes, ...{ active: updatedActive } };
     setNotes(updatedNotes);
-    localforage.setItem('notes', updatedNotes);
+    await localforage.setItem('notes', updatedNotes);
     closeModal();
   }
 
-  const handleDelete = (updatedNotes) => {
+  const handleToggle = async (updatedActive, updatedArchived) => {
+    const updatedNotes = { active: updatedActive, archived: updatedArchived }
     setNotes(updatedNotes);
-    localforage.setItem('notes', updatedNotes);
+    await localforage.setItem('notes', updatedNotes);
   }
 
-  const confirmDelete = (deleteIndex) => {
+  const confirmToggle = (toggleIndex, isArchived) => {
     swal({
-      title: "Are you sure?",
-      icon: "warning",
+      title: (isArchived) ? "Restore note?" : "Archive note?",
+      icon: (isArchived) ? "info" : "warning",
       buttons: true,
-      dangerMode: true,
+      dangerMode: (isArchived) ? false : true,
     })
-    .then((willDelete) => {
-      if (willDelete) {
-        const updatedNotes = [...notes];
-        updatedNotes.splice(deleteIndex, 1);
-        handleDelete(updatedNotes);
+    .then((willToggle) => {
+      if (willToggle) {
+        let updatedArchived, updatedActive;
+        if (isArchived) {
+          updatedArchived = [...notes.archived];
+          const noteToRestore = updatedArchived[toggleIndex];
+          updatedActive = [...notes.active, noteToRestore];
+          updatedArchived.splice(toggleIndex, 1);
+        } else {
+          updatedActive = [...notes.active];
+          const noteToArchive = updatedActive[toggleIndex];
+          updatedArchived = [...notes.archived, noteToArchive];
+          updatedActive.splice(toggleIndex, 1);
+        }
+        handleToggle(updatedActive, updatedArchived);
       } else {
-        swal("Delete cancelled");
+        swal(`${(isArchived) ? `Restore` : `Archive`} cancelled`);
         return;
       }
     });
   }
 
-  const openModal = (e, updateIndex) => {
-    if (e.target.classList.contains('note__item--close')) return;
+  const openModal = (e, updateIndex, isArchived) => {
+    if ((e.target.classList.contains('note__item--close')) || isArchived) return;
     setModalNoteIndex(updateIndex);
     setIsOpen(true);
   }
@@ -95,19 +112,40 @@ function App(props) {
           text={''} />
       </header>
       <main className="App-main">
-        {notes.length ?
-        notes.map((note, index) =>
-        <Note
-          key={note.id}
-          index={index}
-          onDelete={confirmDelete}
-          onOpenModal={openModal}
-          title={note.title}
-          createdAt={note.createdAt}
-          updatedAt={note.updatedAt}
-          text={note.text}
-          id={note.id} />) :
-        <p className="no-notes">No notes to show</p>}
+        <h2 className="text-bg">Active Notes</h2>
+        <section className="active">
+          {notes.active.length ?
+          notes.active.map((note, index) =>
+            <Note
+              key={note.id}
+              index={index}
+              onToggleArchive={confirmToggle}
+              isArchived={false}
+              onOpenModal={openModal}
+              title={note.title}
+              createdAt={note.createdAt}
+              updatedAt={note.updatedAt}
+              text={note.text}
+              id={note.id} />) :
+          <p className="text-bg">No active notes</p>}
+        </section>
+        <h2 className="text-bg">Archived Notes</h2>
+        <section className="archived">
+          {notes.archived.length ?
+            notes.archived.map((note, index) =>
+              <Note
+                key={note.id}
+                index={index}
+                onToggleArchive={confirmToggle}
+                isArchived={true}
+                onOpenModal={openModal}
+                title={note.title}
+                createdAt={note.createdAt}
+                updatedAt={note.updatedAt}
+                text={note.text}
+                id={note.id} />) :
+            <p className="text-bg">No archived notes</p>}
+        </section>
         <Modal
           isOpen={modalIsOpen}
           onRequestClose={closeModal}
@@ -117,11 +155,11 @@ function App(props) {
           <span className="modal__item modal__item--close" onClick={closeModal}>✖</span>
           <NoteForm
             onUpdate={handleUpdate}
-            id={modalIsOpen ? notes[modalNoteIndex].id : null}
-            title={modalIsOpen ? notes[modalNoteIndex].title : null}
-            text={modalIsOpen ? notes[modalNoteIndex].text : null}
-            createdAt={modalIsOpen ? notes[modalNoteIndex].createdAt : null}
-            updatedAt={modalIsOpen ? notes[modalNoteIndex].updatedAt : null} />
+            id={modalIsOpen ? notes.active[modalNoteIndex].id : null}
+            title={modalIsOpen ? notes.active[modalNoteIndex].title : null}
+            text={modalIsOpen ? notes.active[modalNoteIndex].text : null}
+            createdAt={modalIsOpen ? notes.active[modalNoteIndex].createdAt : null}
+            updatedAt={modalIsOpen ? notes.active[modalNoteIndex].updatedAt : null} />
         </Modal>
 
       </main>
