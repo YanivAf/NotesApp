@@ -99,7 +99,7 @@ function App(props) {
   }
 
   const openModal = (e, updateIndex, isArchived) => {
-    if ((e.target.classList.contains('note__item--close')) || isArchived) return;
+    if ((e.target.classList.contains('fa-trash')) || isArchived) return;
     setModalNoteIndex(updateIndex);
     setIsOpen(true);
   }
