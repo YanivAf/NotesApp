@@ -50,8 +50,9 @@ function App(props) {
   }
 
   const handleUpdate = async (updatedNote) => {
-    const updatedActive = [...notes.active];
+    let updatedActive = [...notes.active];
     updatedActive.splice(modalNoteIndex, 1, updatedNote);
+    updatedActive = sortByDate(updatedActive);
     const updatedNotes = { ...notes, ...{ active: updatedActive } };
     setNotes(updatedNotes);
     await localforage.setItem('notes', updatedNotes);
