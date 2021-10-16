@@ -104,7 +104,7 @@ h2 {
 .input-title, .input-text, .input-reminder {
   border: 0;
   background-color: transparent;
-  width: 100%;
+  width: 98%;
   line-height: 30px;
   white-space: pre-wrap;
   overflow-x: hidden;
@@ -128,7 +128,7 @@ h2 {
 
 .input-reminder {
   position: absolute;
-  width: fit-content;
+  width: 30%;
   font-size: calc(6px + 1vmin);
   color: firebrick;
   bottom: -5px;
@@ -141,7 +141,7 @@ input, textarea {
 
 fieldset {
   position: relative;
-  padding: 1vh;
+  padding: 0;
 }
 
 .label-reminder {
@@ -248,7 +248,6 @@ legend {
 
 .note__item--close, .note__item--reminder, .modal__item--close {
   position: absolute;
-  text-align: unset;
   padding: 0;
   top: 2px;
   right: 4px;
