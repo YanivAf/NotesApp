@@ -108,7 +108,6 @@ function App() {
   const checkReminder = () => {
     let updatedActive = [...notes.active];
     updatedActive.forEach((note, index) => {
-      console.log(`${note.reminder} ? ${new Date()}`);
       if ((note.reminder) && (note.reminder <= (new Date()))) {
         swal("Note Reminder!", "", "info", { button: "Show Note" })
         .then(() => {
