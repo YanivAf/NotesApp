@@ -24,7 +24,7 @@ function Note( { title, createdAt, updatedAt, text, onToggleArchive, onOpenModal
             </div>
             }
             <p className='note__item note__item--text'>{text}</p>
-            <span className="note__item note__item--reminder">{hasReminder ? <i className="fas fa-bell"></i> : ''}</span>
+            <span className="note__item note__item--reminder">{(hasReminder && (!isArchived)) ? <i className="fas fa-bell"></i> : ''}</span>
         </div>
     );
 }
