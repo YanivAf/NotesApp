@@ -47,7 +47,7 @@ h2 {
 }
 
 .note-form {
-  width: 60vw;
+  width: 65vw;
   min-width: 280px;
   max-width: 1000px;
   display: flex;
@@ -128,7 +128,6 @@ h2 {
 
 .input-reminder {
   position: absolute;
-  width: 30%;
   font-size: calc(6px + 1vmin);
   color: firebrick;
   bottom: -5px;
@@ -137,11 +136,16 @@ h2 {
 
 input, textarea {
   outline-width: 0;
+  padding: 0;
+  padding-left: 1%;
 }
 
 fieldset {
   position: relative;
   padding: 0;
+  width: 65vw;
+  min-width: 280px;
+  max-width: 1000px;
 }
 
 .label-reminder {
