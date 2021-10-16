@@ -40,7 +40,7 @@ function App() {
 
 
   const handleAdd = async (newNote) => {
-    const updatedNotes = { ...notes, ...{ active: [...notes.active, newNote] } };
+    const updatedNotes = { ...notes, ...{ active: [newNote, ...notes.active] } };
     setNotes(updatedNotes);
     await localforage.setItem('notes', updatedNotes);
   }
